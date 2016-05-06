@@ -2,8 +2,7 @@ function [ clust ] = lrsc( X,n,tau,q,type,convex )
 %Outputs indicator vector for clusters
 %   INPUT: X - DxN data matrix, n - # of subspaces, tau, q
 %   OUTPUT: clust - Nx1 data matrix,
-[U,S,VT] = svd(X);
-V = VT.'; 
+[U,S,V] = svd(X);
 L = diag(S); %vector of singular values
 
 switch type
