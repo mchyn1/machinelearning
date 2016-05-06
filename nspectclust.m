@@ -1,5 +1,6 @@
 function [ clust ] = nspectclust( W,k )
-
+%   INPUT: k - # of clusters, W - NxN affinity matrix
+%   OUTPUT: clust - Nx1 clustering vector
 d = sum(W, 2);
 D = diag(d);
 L = D-W;

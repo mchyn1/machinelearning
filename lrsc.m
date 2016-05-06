@@ -1,7 +1,10 @@
 function [ clust ] = lrsc( X,n,tau,q,type,convex )
 %Outputs indicator vector for clusters
-[U,S,V] = svd(X);
-L = diag(S);
+%   INPUT: X - DxN data matrix, n - # of subspaces, tau, q
+%   OUTPUT: clust - Nx1 data matrix,
+[U,S,VT] = svd(X);
+V = VT.'; 
+L = diag(S); %vector of singular values
 
 switch type
     case 0
@@ -11,11 +14,10 @@ switch type
     case 1
         if convex == 1
             %Data with noise: convex
-            ind = find(L<=tau.^(-1/2)); %shrinkage thresholding
-            L(ind) = 0;
-            L(L~=0) = 1- (tau.^-1)./L.^2;
-            L = diag(L);
-            C = V*L*V';
+            ind = L > tau.^(-1/2); %shrinkage thresholding
+            V1 = V(:,ind);
+            L1 = diag(L(ind).^-2);
+            C = V1*(eye(size(L1,1)) - (1/tau)*L1)*V1.';
         else
             %Data with noise: non-convex
             ind = find(abs(L)<=sqrt(2./tau));
