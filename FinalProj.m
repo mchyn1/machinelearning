@@ -20,23 +20,13 @@ for n = 1:num %number of individuals/subspaces
     X = [X x];
 end
 
-%% Uncorrupted Entries
-tau = 10000; %.00001;
-q = 1;
-runs = 10;
-for r = 1:runs
-    C = lrsc( X,n,tau,q,0,0 );
-    figure;
-    scatter(1:n*c,C);
-end
-
 %% Adding uniform noise to (20:20:80)% of pixels
 % add a loop to see if using Gaussian Noise makes a difference?
 percent = .2:.2:.8;
 for i = 1:length(percent)
     X_noise=X;
     ind = randperm(1:a*b);
-    X_noise(ind(1:a*b*percent),i)=unifrnd(0,256,a*b*percent,1);
+    X_noise(ind(1:a*b*percent),i)=X_noise + unifrnd(-256,256,a*b*percent,1);
 end
 
 %convex
@@ -66,6 +56,17 @@ end
 %convex
 
 %non-convex
+
+
+%% Uncorrupted Entries
+tau = 10000; %.00001;
+q = 1;
+runs = 10;
+for r = 1:runs
+    C = lrsc( X,n,tau,q,0,0 );
+    figure;
+    scatter(1:n*c,C);
+end
 
 
 
