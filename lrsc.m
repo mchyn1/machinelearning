@@ -1,4 +1,4 @@
-function [ clust ] = lrsc( X,n,tau,q,type,convex )
+function [ clust,X_new ] = lrsc( X,n,tau,q,type,convex )
 %Outputs indicator vector for clusters
 %   INPUT: X - DxN data matrix, n - # of subspaces, tau, q
 %   OUTPUT: clust - Nx1 data matrix,
@@ -10,6 +10,7 @@ switch type
         %Uncorrupted Data
         L = diag(L(L~=0));
         C = V*L*V';
+        X_new = X;
     case 1
         if convex == 1
             %Data with noise: convex
@@ -17,6 +18,7 @@ switch type
             V1 = V(:,ind);
             L1 = diag(L(ind).^-2);
             C = V1*(eye(size(L1,1)) - (1/tau)*L1)*V1.';
+            X_new = X*C;
         else
             %Data with noise: non-convex
             ind = find(abs(L)<=sqrt(2./tau));
@@ -29,6 +31,7 @@ switch type
             La = diag(Sa);
             La = diag(La(La~=0));
             C = Va*La*Va';
+            X_new = A;
         end
     case 2
         if convex == 1

@@ -35,7 +35,7 @@ tau = 10000; %.00001;
 q = 1;
 runs = 10;
 for r = 1:runs
-    C = lrsc( X_noise,n,tau,q,1,1 );
+    [C,X_new] = lrsc( X_noise,n,tau,q,1,1 );
     figure;
     scatter(1:n*c,C);
 end
@@ -45,7 +45,7 @@ tau = 10000; %.00001;
 q = 1;
 runs = 10;
 for r = 1:runs
-    C = lrsc( X_noise,n,tau,q,1,0 );
+    [C,X_new] = lrsc( X_noise,n,tau,q,1,0 );
     figure;
     scatter(1:n*c,C);
 end
@@ -64,7 +64,7 @@ tau = 10000; %.00001;
 q = 1;
 runs = 10;
 for r = 1:runs
-    C = lrsc( X,n,tau,q,0,0 );
+    [C,~] = lrsc( X,n,tau,q,0,0 );
     figure;
     scatter(1:n*c,C);
 end
