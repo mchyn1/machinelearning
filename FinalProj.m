@@ -30,6 +30,13 @@ for i = 1:length(percent)
     X_noise(ind(1:round(a*b*percent(i))),:)=bsxfun(@plus,X_noise(ind(1:round(a*b*percent(i))),:),noise);
 end
 
+%% Corrupting (20:20:80)% of pixels
+% 1) by removing them
+% 2) by replacing with outliers of some type
+
+
+%% LRSC with noise
+
 %convex
 tau = 10000; %.00001;
 q = 1;
@@ -50,16 +57,14 @@ for r = 1:runs
     scatter(1:n*c,C);
 end
 
-%% Corrupting (20:20:80)% of pixels
-% 1) by removing them
-% 2) by replacing with outliers of some type
 
+%% LRSC with corruptions
 %convex
 
 %non-convex
 
 
-%% Uncorrupted Entries
+%% LRSC with Uncorrupted Entries
 tau = 10000; %.00001;
 q = 1;
 runs = 10;
