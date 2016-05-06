@@ -25,8 +25,9 @@ end
 percent = .2:.2:.8;
 for i = 1:length(percent)
     X_noise=X;
-    ind = randperm(1:a*b);
-    X_noise(ind(1:a*b*percent),i)=X_noise + unifrnd(-256,256,a*b*percent,1);
+    ind = randperm(a*b);
+    noise = unifrnd(-256,256,[round(a*b*percent(i)),1]);
+    X_noise(ind(1:round(a*b*percent(i))),:)=bsxfun(@plus,X_noise(ind(1:round(a*b*percent(i))),:),noise);
 end
 
 %convex
