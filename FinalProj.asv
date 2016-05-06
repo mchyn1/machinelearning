@@ -36,28 +36,11 @@ percent = .2:.2:.8;
 for i = 1:length(percent)
     X_noise=X;
     ind = randperm(1:a*b);
-    X_noise(ind(1:a*b*percent),i)=unifrnd(0,256,a*b*percent,1);
+    X_noise(ind(,i)=unifrnd(0,256,a*b,1);
 end
-
 %convex
-tau = 10000; %.00001;
-q = 1;
-runs = 10;
-for r = 1:runs
-    C = lrsc( X_noise,n,tau,q,1,1 );
-    figure;
-    scatter(1:n*c,C);
-end
 
 %non-convex
-tau = 10000; %.00001;
-q = 1;
-runs = 10;
-for r = 1:runs
-    C = lrsc( X_noise,n,tau,q,1,0 );
-    figure;
-    scatter(1:n*c,C);
-end
 
 %% Corrupting (20:20:80)% of pixels
 % 1) by removing them

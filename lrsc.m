@@ -20,7 +20,9 @@ switch type
             %Data with noise: non-convex
             ind = find(abs(L)<=sqrt(2./tau));
             L(ind) = 0;
-            L = diag(L);
+            l = diag(L);
+            L = zeros(size(S));
+            L(1:size(l,1),1:size(l,2)) = l;
             A = U*L*V';
             [~,Sa,Va] = svd(A);
             La = diag(Sa);
