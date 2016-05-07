@@ -29,32 +29,38 @@ tau_range = [1*10^-7 1*10^-6 1*10^-5 0.0001 0.001 0.01 0.1 1 10 60 100 150 1000]
 % add a loop to see if using Gaussian Noise makes a difference?
 
 percent = .2:.2:.8;
-NoisySet = cell(1,length(percent));
-for i = 1:length(percent)
-    X_noise=X;
-    ind = randperm(a*b);
-    noise = unifrnd(-60,60,[round(a*b*percent(i)),1]);
-    X_noise(ind(1:round(a*b*percent(i))),:)=bsxfun(@plus,X_noise(ind(1:round(a*b*percent(i))),:),noise);
-    NoisySet{i} = X_noise;
+levels = .1:.1:.6;
+NoisySet = cell(1,length(percent)*length(levels));
+k = 0;
+for j = 1:length(levels)
+    for i = 1:length(percent)
+        k = k + 1;
+        X_noise=X;
+        ind = randperm(a*b);
+        noise = unifrnd(-255*levels(j),255*levels(i),[round(a*b*percent(i)),1]);
+        X_noise(ind(1:round(a*b*percent(i))),:)=bsxfun(@plus,X_noise(ind(1:round(a*b*percent(i))),:),noise);
+        NoisySet{k} = abs(X_noise);
+    end
 end
 
 %% Corrupting (20:20:80)% of pixels
-% 1) by removing them
-% 2) by replacing with outliers of some type
 CorruptSet = cell(1,length(percent));
 for i = 1:length(percent)
     X_corrupt=X;
     ind = randperm(a*b);
-    noise = unifrnd(-256,256,[round(a*b*percent(i)),1]);
+    noise = unifrnd(-255,255,[round(a*b*percent(i)),1]);
     X_corrupt(ind(1:round(a*b*percent(i))),:)=bsxfun(@plus,X_corrupt(ind(1:round(a*b*percent(i))),:),noise);
     CorruptSet{i} = X_corrupt;
 end
 
 
-%% LRSC with noise
-for i = 1:4
-    data{i+1} = NoisySet{i};
-    data{i+5} = CorruptSet{i};
+%% LRSC
+for i = 1:length(percent) + length(percent)*length(levels)
+    if i <= length(NoisySet)
+        data{i} = NoisySet{i};
+    else
+        data{i} = CorruptSet{i};
+    end
 end
 method = cell(5,1);
 method{1} = 'uncorrupt';
