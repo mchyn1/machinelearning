@@ -18,7 +18,7 @@ for individual_number = 1:n % individual number
 end
 
 %%
-tau_range = [1*10^-6 1*10^-5 0.0001 0.001 0.01 0.1 1 10 100];
+tau_range = [1*10^-7 1*10^-6 1*10^-5 0.0001 0.001 0.01 0.1 1 10 100];
 errorset = zeros(1,length(tau_range)); clusterset = zeros(n*sample,length(tau_range));
 for p = 1:length(tau_range)
     tau = tau_range(p);

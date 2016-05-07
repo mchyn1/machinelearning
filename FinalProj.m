@@ -22,6 +22,7 @@ for n = 1:num %number of individuals/subspaces
     X = [X x];
 end
 
+tau_range = [1*10^-7 1*10^-6 1*10^-5 0.0001 0.001 0.01 0.1 1 10 100];
 %% Adding uniform noise to (20:20:80)% of pixels
 % add a loop to see if using Gaussian Noise makes a difference?
 percent = .2:.2:.8;
@@ -40,18 +41,14 @@ end
 %% LRSC with noise
 
 %convex
-tau = 1*10^-6; %.00001;
-q = 1;
-[C,X_new] = lrsc( X_noise,n,tau,q,1,1 );
-error = clustering_error(C,num,c)
+[C, tau, error] = find_tau(X_noise,tau_range,'noise convex',num,c);
+tau
 figure;
 scatter(1:n*c,C);
 
 %non-convex
-tau = 1*10^-6; %.00001;
-q = 1;
-[C,X_new] = lrsc( X_noise,n,tau,q,1,0 );
-error = clustering_error(C,num,c)
+[C, tau, error] = find_tau(X_noise,tau_range,'noise nonconvex',num,c);
+tau
 figure;
 scatter(1:n*c,C);
 
@@ -64,10 +61,8 @@ scatter(1:n*c,C);
 
 
 %% LRSC with Uncorrupted Entries
-tau = 1*10^-6; %.00001;
-q = 1;
-[C,~] = lrsc( X,n,tau,q,0,0 );
-error = clustering_error(C,num,c)
+[C, tau, error] = find_tau(X_noise,tau_range,'uncorrupt',num,c);
+tau
 figure;
 scatter(1:n*c,C);
 

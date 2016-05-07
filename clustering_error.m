@@ -18,7 +18,7 @@ for i = 1:n
     while any(used_subspace == indices(m)) %if subspace has already been used, select next subspace
         m = m + 1;
     end
-    used_subspace = [used_subspace indices(m)]
+    used_subspace = [used_subspace indices(m)];
     max_value = values(m); %how many points were clustered in this subspace?
     error_mat(i) = sample - max_value; %what is the clustering error for this subspace
 end
