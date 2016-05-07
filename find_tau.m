@@ -25,7 +25,8 @@ for i = 1:length(tau_range)
     clusterset(:,i) = C;
     newdataset{i}=X_new;
 end
-[best_error, error_min_index] = min(errorset);
+[best_error, ~] = min(errorset);
+error_min_index = find(errorset == best_error,1,'last');
 best_tau = tau_range (error_min_index);
 best_cluster = clusterset(:,error_min_index);
 best_X_new = newdataset{error_min_index};

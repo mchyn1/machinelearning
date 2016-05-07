@@ -23,7 +23,7 @@ for n = 1:num %number of individuals/subspaces
 end
 data = cell(9,1);
 data{1} = X;
-tau_range = [1*10^-7 1*10^-6 1*10^-5 0.0001 0.001 0.01 0.1 1 10 100 1000];
+tau_range = [1*10^-7 1*10^-6 1*10^-5 0.0001 0.001 0.01 0.1 1 10 60 100 150 1000];
 
 %% Adding uniform noise to (20:20:80)% of pixels
 % add a loop to see if using Gaussian Noise makes a difference?

@@ -35,13 +35,17 @@ switch type
         if convex == 1
             %Data with corrupted entries: convex
             B = size(X,1)*size(X,2)/(4*norm(X,1));
-            [C,~] = admm(X,B,convex);
+            B=10;
+%             [C,~] = admm(X,B,convex);
+            [~,L,E] = rpca_admm_Barb(X,tau,B,'L1');
             X_new = X*C;
         else
             %Data with uncorrupted entries: non-convex
             %use pcp/admm for robust pca to get A
             B = size(X,1)*size(X,2)/(4*norm(X,1));
-            [A,~] = admm(X,B,convex);
+            B=10;
+%             [A,~] = admm(X,B,convex);
+            [~,A,~] = rpca_admm_Barb(X,tau,B,'L1');
             X_new = A;
             
             %using theorem 8.6 on A to ge tC
