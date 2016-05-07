@@ -1,4 +1,4 @@
-function [best_cluster,best_tau,best_error,best_X_new] = find_tau( X, tau_range, method, n, sample_num)
+function [best_cluster,best_tau,best_error] = find_tau( X, tau_range, method, n, sample_num)
 %UNTITLED3 Summary of this function goes here
 %   Detailed explanation goes here
 
