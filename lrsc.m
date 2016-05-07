@@ -35,7 +35,8 @@ switch type
         if convex == 1
             %Data with corrupted entries: convex
             lambda = tau;
-       
+            B = 10;
+            C = corrupt_convex_admm(X,tau,B);
             X_new = X*C;
         else
             %Data with uncorrupted entries: non-convex
