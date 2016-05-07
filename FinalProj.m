@@ -63,7 +63,7 @@ method{3} = 'noise nonconvex';
 method{4} = 'corrupt convex';
 method{5} = 'corrupt nonconvex';
 for d = 3 %1:9
-    for test = 4 %1:5
+    for test = 5 %1:5
         [C, tau, error, X_new] = find_tau(data{d},tau_range,method{test},num,c);
         tau
         error
