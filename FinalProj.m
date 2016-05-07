@@ -1,6 +1,8 @@
 %%600.6 Advanced Topics in Machine Learning
 %Final Project
 %%Michelle Chyn and Barbara Kim
+clear all;
+close all;
 
 %% loading images
 num = 3; %num of subspaces (individuals)
