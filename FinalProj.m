@@ -21,15 +21,15 @@ for n = 1:num %number of individuals/subspaces
     x = reshape(x,[a*b,c]);
     X = [X x];
 end
-data = cell(9,1);
+percent = .2:.2:.8;
+levels = .1:.1:.6;
+data = cell(length(percent)*length(levels)+length(percent)+1,1);
 data{1} = X;
 tau_range = [1*10^-7 1*10^-6 1*10^-5 0.0001 0.001 0.01 0.1 1 10 60 100 150 1000];
 
 %% Adding uniform noise to (20:20:80)% of pixels
 % add a loop to see if using Gaussian Noise makes a difference?
 
-percent = .2:.2:.8;
-levels = .1:.1:.6;
 NoisySet = cell(1,length(percent)*length(levels));
 k = 0;
 for j = 1:length(levels)
@@ -55,11 +55,13 @@ end
 
 
 %% LRSC
+j = 1;
 for i = 1:length(percent) + length(percent)*length(levels)
     if i <= length(NoisySet)
-        data{i} = NoisySet{i};
+        data{i+1} = NoisySet{i};
     else
-        data{i} = CorruptSet{i};
+        data{i+1} = CorruptSet{j};
+        j = j + 1;
     end
 end
 method = cell(5,1);
@@ -69,7 +71,7 @@ method{3} = 'noise nonconvex';
 method{4} = 'corrupt convex';
 method{5} = 'corrupt nonconvex';
 for d = 3 %1:9
-    for test = 5 %1:5
+    for test = 2 %1:5
         [C, tau, error, X_new] = find_tau(data{d},tau_range,method{test},num,c);
         tau
         error
