@@ -34,10 +34,8 @@ switch type
     case 2
         if convex == 1
             %Data with corrupted entries: convex
-            B = size(X,1)*size(X,2)/(4*norm(X,1));
-            B=10;
-%             [C,~] = admm(X,B,convex);
-            [~,L,E] = rpca_admm_Barb(X,tau,B,'L1');
+            lambda = tau;
+       
             X_new = X*C;
         else
             %Data with uncorrupted entries: non-convex
