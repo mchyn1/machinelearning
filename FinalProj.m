@@ -62,11 +62,16 @@ method{2} = 'noise convex';
 method{3} = 'noise nonconvex';
 method{4} = 'corrupt convex';
 method{5} = 'corrupt nonconvex';
+method_tau = zero(d,test);
+method_error = zeros(d,test);
+method_computeTime = zeros(d,test);
 for d = 3 %1:9
-    for test = 4 %1:5
+    for test = 1:3 %1:5
+        tic
         [C, tau, error, X_new] = find_tau(data{d},tau_range,method{test},num,c);
-        tau
-        error
+        method_computeTime = toc;
+        method_tau(d,test) = tau;
+        method_error(d,test) = error;
         figure;
         scatter(1:n*c,C);
         figure;
