@@ -74,31 +74,32 @@ method{5} = 'corrupt nonconvex';
 method_tau = zeros(data_length,5);
 method_error = zeros(data_length,5);
 method_computeTime = zeros(data_length,5);
-for d = 1:24 %1:9
-    for test = 5  %1:5
+bloop = [1:3 5];
+for d = 25:29 %1:9
+    for iffy = 1:length(bloop)
+        test = bloop(iffy);
+        %1:5
         tic
         [C, tau, error, X_new] = find_tau(data{d},tau_range,method{test},num,c);
         method_computeTime(d,test) = toc;
         method_tau(d,test) = tau;
         method_error(d,test) = error;
-%         figure;
-%         scatter(1:n*c,C);
-%         figure;
-%         for i = 1:c*n
-%             if test ==1
-%                 X_new = data{d};
-%             end
-%             x = reshape(X_new(:,i),a,b);
-%             subplot(n,c,i);imshow(x,'DisplayRange',[]);
-%         end
+        figure;
+        scatter(1:n*c,C);
+        figure;
+        for i = 1:c*n
+            if test ==1
+                X_new = data{d};
+            end
+            x = reshape(X_new(:,i),a,b);
+            subplot(n,c,i);imshow(x,'DisplayRange',[]);
+        end
     end
 end
 
 %% Plot Figures
-% Uncorrupt Data
+%% Noisy Data
 
-% Noisy Data
-bloop = [1:3 5];
 ordered_error = zeros(length(levels),length(percent),5);
 ordered_tau = zeros(length(levels),length(percent),5);
 ordered_computeTime = zeros(length(levels),length(percent),5);
@@ -121,3 +122,16 @@ for i = 1:length(percent)
     end
     legend('Uncorrupt LRSC','Noisy Convex LRSC','Noisy Non-Convex LRSC', 'Corrupt Non-Convex LRSC');
 end
+
+%% Corrupt Data
+figure();
+hold on;
+xlabel('Percent Corruption');
+ylabel('Clustering Error (%)');
+title('Corrupted Data');
+for m = 1:length(bloop)
+    j = bloop(m);
+    plot(percent*100,method_error(26:end,j)*100,'-o');
+end
+legend('Uncorrupt LRSC','Noisy Convex LRSC','Noisy Non-Convex LRSC', 'Corrupt Non-Convex LRSC','Location','best');
+
