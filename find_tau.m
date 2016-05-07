@@ -4,7 +4,7 @@ function [best_cluster,best_tau,best_error,best_X_new] = find_tau( X, tau_range,
 
 errorset = zeros(1,length(tau_range));
 clusterset = zeros(n*sample_num,length(tau_range));
-newdataset = cell(length(tau_range,1));
+newdataset = cell(length(tau_range),1);
 q = 1;
 C = []; X_new = [];
 for i = 1:length(tau_range)
