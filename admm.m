@@ -1,4 +1,4 @@
-function [ C,E ] = admm( X,B )
+function [ C,E ] = admm( X,B,convex )
 
 E = 0;
 Lambda = 0; temp = Lambda;
@@ -15,12 +15,20 @@ while norm(temp-Lambda)/norm(temp)<thresh && r<1000
     S(S>B^-1) = S - B^-1;
     S(S<B^-1) = S + B^-1;
     C = U*S*V';
-    arg2 = X - X*C + B^-1*Lambda;
+    if convex == 1
+        arg2 = X - X*C + B^-1*Lambda;
+    else
+        arg2 = X - C + B^-1*Lambda;
+    end
     arg2(arg2<=tau&&arg2>=-tau) = 0;
     arg2(arg2>tau) = arg2 - tau;
     arg2(arg2<tau) = arg2 + tau;
     E = arg2;
-    Lambda = Lambda + B.*(X-X*C-E);
+    if convex == 1
+        Lambda = Lambda + B.*(X-X*C-E);
+    else
+        Lambda = Lambda + B.*(X-C-E);
+    end
 end
 
 
