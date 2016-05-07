@@ -25,7 +25,7 @@ percent = .2:.2:.8;
 levels = .1:.1:.6;
 data = cell(length(percent)*length(levels)+length(percent)+1,1);
 data{1} = X;
-tau_range = [1*10^-7 1*10^-6 1*10^-5 0.0001 0.001 0.01 0.1 1 10 60 100 150 1000];
+tau_range = [1*10^-7 1*10^-6 1*10^-5 0.0001 0.001 0.01 0.1 1 10 60 100 150];
 
 %% Adding uniform noise to (20:20:80)% of pixels
 % add a loop to see if using Gaussian Noise makes a difference?
@@ -75,7 +75,7 @@ method_tau = zeros(data_length,5);
 method_error = zeros(data_length,5);
 method_computeTime = zeros(data_length,5);
 for d = 1:24 %1:9
-    for test = 1:3 %1:5
+    for test = 5  %1:5
         tic
         [C, tau, error, X_new] = find_tau(data{d},tau_range,method{test},num,c);
         method_computeTime(d,test) = toc;
@@ -95,7 +95,10 @@ for d = 1:24 %1:9
 end
 
 %% Plot Figures
+% Uncorrupt Data
+
 % Noisy Data
+bloop = [1:3 5];
 ordered_error = zeros(length(levels),length(percent),5);
 ordered_tau = zeros(length(levels),length(percent),5);
 ordered_computeTime = zeros(length(levels),length(percent),5);
@@ -105,8 +108,9 @@ for i = 1:length(percent)
     xlabel('Noise Level');
     ylabel('Clustering Error (%)');
     title(sprintf('Noise in %.f%% of the Data',percent(i)*100));
-    for j = 1:test %change by number of methods run
-        ind = 1;
+    for m = 1:length(bloop) %change by number of methods run
+        j = bloop(m);
+        ind = 2;
         for k = i:length(percent):length(levels)*length(percent)
             ordered_error(ind,i,j) = method_error(k,j);
             ordered_tau(ind,i,j) = method_tau(k,j);
@@ -115,5 +119,5 @@ for i = 1:length(percent)
         end
         plot(levels,ordered_error(:,i,j)*100,'-o');
     end
-    legend('Uncorrupt LRSC','Noisy Convex LRSC','Noisy Non-Convex LRSC');
+    legend('Uncorrupt LRSC','Noisy Convex LRSC','Noisy Non-Convex LRSC', 'Corrupt Non-Convex LRSC');
 end
