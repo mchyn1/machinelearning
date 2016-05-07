@@ -75,8 +75,8 @@ method{5} = 'corrupt nonconvex';
 method_tau = zeros(data_length,5);
 method_error = zeros(data_length,5);
 method_computeTime = zeros(data_length,5);
-bloop = [1:3 ];%5];
-for d = 5%25:29 %1:9
+bloop = [1:3 5];%5];
+for d = 1:24%25:29 %1:9
     for iffy = 1:length(bloop)
         test = bloop(iffy);
         %1:5
@@ -113,8 +113,8 @@ for i = 1:length(percent)
     title(sprintf('Noise in %.f%% of the Data',percent(i)*100));
     for m = 1:length(bloop) %change by number of methods run
         j = bloop(m);
-        ind = 2;
-        for k = i:length(percent):length(levels)*length(percent)
+        ind = 1;
+        for k = i+1:length(percent):length(levels)*length(percent)
             ordered_error(ind,i,j) = method_error(k,j);
             ordered_tau(ind,i,j) = method_tau(k,j);
             ordered_computeTime(ind,i,j) = method_computeTime(k,j);
@@ -122,18 +122,18 @@ for i = 1:length(percent)
         end
         plot(levels,ordered_error(:,i,j)*100,'-o');
     end
-    legend('Uncorrupt LRSC','Noisy Convex LRSC','Noisy Non-Convex LRSC', 'Corrupt Non-Convex LRSC');
+    legend('Uncorrupt LRSC','Noisy Convex LRSC','Noisy Non-Convex LRSC', 'Corrupt Non-Convex LRSC','Location','best');
 end
 
-%% Corrupt Data
-figure();
-hold on;
-xlabel('Percent Corruption');
-ylabel('Clustering Error (%)');
-title('Corrupted Data');
-for m = 1:length(bloop)
-    j = bloop(m);
-    plot(percent*100,method_error(26:end,j)*100,'-o');
-end
-legend('Uncorrupt LRSC','Noisy Convex LRSC','Noisy Non-Convex LRSC', 'Corrupt Non-Convex LRSC','Location','best');
-
+% %% Corrupt Data
+% figure();
+% hold on;
+% xlabel('Percent Corruption');
+% ylabel('Clustering Error (%)');
+% title('Corrupted Data');
+% for m = 1:length(bloop)
+%     j = bloop(m);
+%     plot(percent*100,method_error(26:end,j)*100,'-o');
+% end
+% legend('Uncorrupt LRSC','Noisy Convex LRSC','Noisy Non-Convex LRSC', 'Corrupt Non-Convex LRSC','Location','best');
+% 
