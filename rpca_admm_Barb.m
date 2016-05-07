@@ -40,6 +40,5 @@ while measure > threshold && iteration < 1000 % stop at threshold or max num. of
     pre_val = cur_val;
 end
 mu = mean(L,2);
-iteration
 end
 

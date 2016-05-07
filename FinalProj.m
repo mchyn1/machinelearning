@@ -8,7 +8,7 @@ close all;
 num = 3; %num of subspaces (individuals)
 a = 50; %192
 b = 50; %168
-c = 6; %10 %images per individual
+c = 10; %10 %images per individual
 s = [a, b, c];
 X = [];
 %X = zeros(a*b,c);
