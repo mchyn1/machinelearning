@@ -64,68 +64,56 @@ for i = 1:length(percent) + length(percent)*length(levels)
         j = j + 1;
     end
 end
+data_length = length(data);
 method = cell(5,1);
 method{1} = 'uncorrupt';
 method{2} = 'noise convex';
 method{3} = 'noise nonconvex';
 method{4} = 'corrupt convex';
 method{5} = 'corrupt nonconvex';
-method_tau = zero(d,test);
-method_error = zeros(d,test);
-method_computeTime = zeros(d,test);
-for d = 3 %1:9
+method_tau = zeros(data_length,5);
+method_error = zeros(data_length,5);
+method_computeTime = zeros(data_length,5);
+for d = 1:24 %1:9
     for test = 1:3 %1:5
         tic
         [C, tau, error, X_new] = find_tau(data{d},tau_range,method{test},num,c);
-        method_computeTime = toc;
+        method_computeTime(d,test) = toc;
         method_tau(d,test) = tau;
         method_error(d,test) = error;
-        figure;
-        scatter(1:n*c,C);
-        figure;
-        for i = 1:c*n
-            if test ==1
-                X_new = data{d};
-            end
-            x = reshape(X_new(:,i),a,b);
-            subplot(n,c,i);imshow(x,'DisplayRange',[]);
-        end
+%         figure;
+%         scatter(1:n*c,C);
+%         figure;
+%         for i = 1:c*n
+%             if test ==1
+%                 X_new = data{d};
+%             end
+%             x = reshape(X_new(:,i),a,b);
+%             subplot(n,c,i);imshow(x,'DisplayRange',[]);
+%         end
     end
 end
 
-%{
-%non-convex
-[C, tau, error, X_new] = find_tau(data,tau_range,'noise nonconvex',num,c);
-tau
-error
-figure;
-scatter(1:n*c,C);
-figure;
-for i = 1:c*n
-    x = reshape(X_new(:,i),a,b);
-    subplot(n,c,i);imshow(x,'DisplayRange',[]);
+%% Plot Figures
+% Noisy Data
+ordered_error = zeros(length(levels),length(percent),5);
+ordered_tau = zeros(length(levels),length(percent),5);
+ordered_computeTime = zeros(length(levels),length(percent),5);
+for i = 1:length(percent)
+    figure();
+    hold on;
+    xlabel('Noise Level');
+    ylabel('Clustering Error (%)');
+    title(sprintf('Noise in %.f%% of the Data',percent(i)*100));
+    for j = 1:test %change by number of methods run
+        ind = 1;
+        for k = i:length(percent):length(levels)*length(percent)
+            ordered_error(ind,i,j) = method_error(k,j);
+            ordered_tau(ind,i,j) = method_tau(k,j);
+            ordered_computeTime(ind,i,j) = method_computeTime(k,j);
+            ind = ind + 1;
+        end
+        plot(levels,ordered_error(:,i,j)*100,'-o');
+    end
+    legend('Uncorrupt LRSC','Noisy Convex LRSC','Noisy Non-Convex LRSC');
 end
-
-%% LRSC with Uncorrupted Entries
-% [C, tau, error, X_new] = find_tau(data,tau_range,'uncorrupt',num,c);
-% tau
-% error
-% figure;
-% scatter(1:n*c,C);
-
-% %% LRSC with corruptions
-% %convex
-% [C, tau, error, X_new] = find_tau(data,tau_range,'corrupt convex',num,c);
-% tau
-% error
-% figure;
-% scatter(1:n*c,C);
-%
-% %non-convex
-% [C, tau, error, X_new] = find_tau(data,tau_range,'corrupt nonconvex',num,c);
-% tau
-% error
-% figure;
-% scatter(1:n*c,C);
-
-%}
