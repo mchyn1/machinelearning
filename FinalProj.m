@@ -56,9 +56,16 @@ scatter(1:n*c,C);
 
 %% LRSC with corruptions
 %convex
+[C, tau, error] = find_tau(X_noise,tau_range,'corrupt convex',num,c);
+tau
+figure;
+scatter(1:n*c,C);
 
 %non-convex
-
+[C, tau, error] = find_tau(X_noise,tau_range,'corrupt nonconvex',num,c);
+tau
+figure;
+scatter(1:n*c,C);
 
 %% LRSC with Uncorrupted Entries
 [C, tau, error] = find_tau(X_noise,tau_range,'uncorrupt',num,c);

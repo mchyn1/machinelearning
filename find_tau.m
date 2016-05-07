@@ -16,7 +16,9 @@ for i = 1:length(tau_range)
         case 'noise nonconvex'
             [C,X_new] = lrsc( X_noise,n,tau,q,1,0 );
         case 'corrupt convex'
+            [C,X_new] = lrsc( X_noise,n,tau,q,2,1 );
         case 'corrupt nonconvex'
+            [C,X_new] = lrsc( X_noise,n,tau,q,2,0 );
     end
     errorset(i) = clustering_error(C,n,sample_num)
     clusterset(:,i) = C;
