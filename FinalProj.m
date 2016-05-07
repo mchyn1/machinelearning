@@ -40,21 +40,19 @@ end
 %convex
 tau = 1*10^-6; %.00001;
 q = 1;
-
 [C,X_new] = lrsc( X_noise,n,tau,q,1,1 );
 error = clustering_error(C,num,c)
 figure;
 scatter(1:n*c,C);
 
 %non-convex
-tau = 10000; %.00001;
+tau = 1*10^-6; %.00001;
 q = 1;
-runs = 10;
-for r = 1:runs
-    [C,X_new] = lrsc( X_noise,n,tau,q,1,0 );
-    figure;
-    scatter(1:n*c,C);
-end
+[C,X_new] = lrsc( X_noise,n,tau,q,1,0 );
+error = clustering_error(C,num,c)
+figure;
+scatter(1:n*c,C);
+
 
 
 %% LRSC with corruptions
@@ -64,14 +62,13 @@ end
 
 
 %% LRSC with Uncorrupted Entries
-tau = 10000; %.00001;
+tau = 1*10^-6; %.00001;
 q = 1;
-runs = 10;
-for r = 1:runs
-    [C,~] = lrsc( X,n,tau,q,0,0 );
-    figure;
-    scatter(1:n*c,C);
-end
+[C,~] = lrsc( X,n,tau,q,0,0 );
+error = clustering_error(C,num,c)
+figure;
+scatter(1:n*c,C);
+
 
 
 
