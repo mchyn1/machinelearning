@@ -64,6 +64,7 @@ for i = 1:length(percent) + length(percent)*length(levels)
         j = j + 1;
     end
 end
+%%
 data_length = length(data);
 method = cell(5,1);
 method{1} = 'uncorrupt';
@@ -74,8 +75,8 @@ method{5} = 'corrupt nonconvex';
 method_tau = zeros(data_length,5);
 method_error = zeros(data_length,5);
 method_computeTime = zeros(data_length,5);
-bloop = [1:3 5];
-for d = 25:29 %1:9
+bloop = [1:3 ];%5];
+for d = 5%25:29 %1:9
     for iffy = 1:length(bloop)
         test = bloop(iffy);
         %1:5
@@ -87,12 +88,13 @@ for d = 25:29 %1:9
         figure;
         scatter(1:n*c,C);
         figure;
-        for i = 1:c*n
+        for i = 1:9
+            im = [1:3;11:13;21:23];
             if test ==1
                 X_new = data{d};
             end
-            x = reshape(X_new(:,i),a,b);
-            subplot(n,c,i);imshow(x,'DisplayRange',[]);
+            x = reshape(X_new(:,im(i)),a,b);
+            subplot(3,3,i);imshow(x,'DisplayRange',[]);
         end
     end
 end

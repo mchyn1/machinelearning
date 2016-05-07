@@ -19,14 +19,16 @@ switch type
             X_new = X*C;
         else
             %Data with noise: non-convex
-            ind = find(abs(L)<=sqrt(2./tau));
-            L(ind) = 0;
-            l = diag(L);
-            L = zeros(size(S));
-            L(1:size(l,1),1:size(l,2)) = l;
-            A = U*L*V';
-            [~,Sa,Va] = svd(A);
+%             ind = find(abs(L)<=sqrt(2./tau));
+%             L(ind) = 0;
+%             l = diag(L);
+%             L = zeros(size(S));
+%             L(1:size(l,1),1:size(l,2)) = l;
+            L = max(1 - 1./((tau/4)*L.^2),0);
+            A = U*diag(L)*V';
+            [Ua,Sa,Va] = svd(A);
             La = diag(Sa);
+            Va = Va(1:length(La),1:length(La));
             La = diag(La(La~=0));
             C = Va*La*Va';
             X_new = A;
@@ -48,8 +50,9 @@ switch type
             X_new = A;
             
             %using theorem 8.6 on A to ge tC
-            [~,Sa,Va] = svd(A);
+            [Ua,Sa,Va] = svd(A);
             La = diag(Sa);
+            Va = Va(1:length(La),1:length(La));
             La = diag(La(La~=0));
             C = Va*La*Va';
         end
